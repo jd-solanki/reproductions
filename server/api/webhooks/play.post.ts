@@ -1,9 +1,12 @@
 export default defineEventHandler(async (event) => {
-  const body = await readRawBody(event)
-  console.log('Received webhook payload:', body)
+  const rawBodyReadFirst = await readRawBody(event)
+  console.log('rawBodyReadFirst:', rawBodyReadFirst)
   
-  const body2 = await readRawBody(event)
-  console.log('Received webhook payload (2nd read):', body2)
+  const rawBodyReadSecond = await readRawBody(event)
+  console.log('rawBodyReadSecond:', rawBodyReadSecond)
+
+  const readBodyFirst = await readBody(event)
+  console.log('readBodyFirst:', readBodyFirst)
     
-  return { body, body2 }
+  return { rawBodyReadFirst, rawBodyReadSecond, readBodyFirst }
 })
