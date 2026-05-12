@@ -6,4 +6,11 @@ export default defineNuxtConfig({
   hub: {
     db: 'sqlite',
   },
+  imports: {
+    dirs: [
+      // Shared schemas of app & layers
+      '../shared/schema/**',
+      '../layers/*/shared/schema/**',
+    ],
+  },
 })
