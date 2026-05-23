@@ -9,8 +9,8 @@ export default defineNuxtConfig({
   imports: {
     dirs: [
       // Shared schemas of app & layers
-      '../shared/schema/**',
-      '../layers/*/shared/schema/**',
+      '../shared/schemas/**',
+      '../layers/*/shared/schemas/**',
     ],
   },
 })
