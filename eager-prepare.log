@@ -1,0 +1,19 @@
+
+ ERROR  Failed to load auth config: Cannot read properties of undefined (reading 'app')
+
+    at loadUserAuthConfig (node_modules/@onmax/nuxt-better-auth/dist/module.mjs:324:13)
+    at async loadAuthOptions (node_modules/@onmax/nuxt-better-auth/dist/module.mjs:391:22)
+    at async setupBetterAuthSchema (node_modules/@onmax/nuxt-better-auth/dist/module.mjs:406:37)
+    at async setup (node_modules/@onmax/nuxt-better-auth/dist/module.mjs:1358:7)
+    at async normalizedModule (node_modules/@nuxt/kit/dist/index.mjs:169:10)
+    at async callModule (node_modules/@nuxt/kit/dist/index.mjs:736:46)
+    at async installModules (node_modules/@nuxt/kit/dist/index.mjs:570:3)
+    at async initNuxt (node_modules/nuxt/dist/index.mjs:7337:3)
+    at async loadNuxt (node_modules/nuxt/dist/index.mjs:7579:5)
+    at async loadNuxt (node_modules/@nuxt/kit/dist/index.mjs:921:9)
+    at async Object.run (node_modules/@nuxt/cli/dist/prepare-Dg6Tsv5Z.mjs:29:16)
+    at async runCommand (node_modules/citty/dist/index.mjs:228:47)
+    at async runCommand (node_modules/citty/dist/index.mjs:217:5)
+    at async runMain (node_modules/citty/dist/index.mjs:394:10) 
+
+
