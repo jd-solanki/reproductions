@@ -1,0 +1,22 @@
+{
+  "name": "nuxthub-db-schema-postgres-in-client-bundle",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxthub/core": "0.10.7",
+    "drizzle-orm": "0.45.2",
+    "drizzle-zod": "0.8.3",
+    "nuxt": "^4.4.8",
+    "postgres": "3.4.9",
+    "vue": "^3.5.38",
+    "vue-router": "^5.1.0",
+    "zod": "4.4.3"
+  }
+}
