@@ -1,0 +1,24 @@
+{
+  "name": "repro-config-extend",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "repro": "node repro.mjs",
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.15.0",
+    "@nuxt/kit": "^4.4.6",
+    "@nuxthub/core": "^0.10.8",
+    "@nuxtjs/better-auth": "^0.2.2",
+    "better-auth": "1.7.2",
+    "drizzle-kit": "^0.31.10",
+    "drizzle-orm": "^0.45.2",
+    "nuxt": "^4.4.6",
+    "typescript": "^5.9.3",
+    "vue": "^3.5.34",
+    "vue-router": "^5.0.7"
+  }
+}

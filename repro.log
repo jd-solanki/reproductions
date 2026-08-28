@@ -1,0 +1,82 @@
+
+> repro
+> node repro.mjs
+
+
+=== STEP 1: `nuxt prepare` -- what reached schema generation? ===
+
+(node:90030) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[nuxt-better-auth] ℹ Generated sqlite schema (.ts + .mjs)
+│
+◆  Types generated in .nuxt.
+
+=== STEP 2: `nuxt dev` -- did the plugin reach the runtime instance? ===
+
+[repro] using port 49971
+
+│
+●  Nuxt 4.5.2 (with Nitro 2.13.4, Vite 8.2.2 and Vue 3.5.42)
+
+  ➜ Local:    http://127.0.0.1:49971/
+  ➜ Network:  use --host to expose
+
+[nuxt-better-auth] ℹ Generated sqlite schema (.ts + .mjs)
+  ➜ DevTools: press Shift + Option + D in the browser (v3.4.2)
+
+[nuxt:hub] ℹ hub:db using sqlite database with libsql driver
+✔ Vite client built in 20ms
+✔ Vite server built in 5ms
+[nitro] ✔ Nuxt Nitro server built in 416ms
+ℹ Vite server warmed up in 5ms
+ℹ Vite client warmed up in 14ms
+WARN  [VUE_ROUTER_R0004] No match found for location with path "/"
+├▶ fix: Add a route matching this path or check for typos in the location.
+╰▶ see: https://router.vuejs.org/guide/essentials/dynamic-matching.html#Catch-all-404-Not-found-Route
+WARN  [nuxt-better-auth] Using inferred baseURL "http://localhost" from request origin. Set runtimeConfig.public.siteUrl for deterministic OAuth callbacks.
+WARN  [VUE_ROUTER_R0004] No match found for location with path "/"
+├▶ fix: Add a route matching this path or check for typos in the location.
+╰▶ see: https://router.vuejs.org/guide/essentials/dynamic-matching.html#Catch-all-404-Not-found-Route
+
+=== STEP 3: positive control -- same plugin, declared in auth.config.ts ===
+
+[repro] using port 49975
+
+│
+●  Nuxt 4.5.2 (with Nitro 2.13.4, Vite 8.2.2 and Vue 3.5.42)
+
+  ➜ Local:    http://127.0.0.1:49975/
+  ➜ Network:  use --host to expose
+
+[nuxt-better-auth] ℹ Generated sqlite schema (.ts + .mjs)
+  ➜ DevTools: press Shift + Option + D in the browser (v3.4.2)
+
+[nuxt:hub] ℹ hub:db using sqlite database with libsql driver
+✔ Vite client built in 18ms
+✔ Vite server built in 6ms
+[nitro] ✔ Nuxt Nitro server built in 400ms
+ℹ Vite server warmed up in 6ms
+ℹ Vite client warmed up in 15ms
+WARN  [VUE_ROUTER_R0004] No match found for location with path "/"
+├▶ fix: Add a route matching this path or check for typos in the location.
+╰▶ see: https://router.vuejs.org/guide/essentials/dynamic-matching.html#Catch-all-404-Not-found-Route
+WARN  [nuxt-better-auth] Using inferred baseURL "http://localhost" from request origin. Set runtimeConfig.public.siteUrl for deterministic OAuth callbacks.
+WARN  [VUE_ROUTER_R0004] No match found for location with path "/"
+├▶ fix: Add a route matching this path or check for typos in the location.
+╰▶ see: https://router.vuejs.org/guide/essentials/dynamic-matching.html#Catch-all-404-Not-found-Route
+
+================ RESULT ================
+schema has "viaPluginField" (set via hook config.plugins)   : true
+schema has "viaHookField"   (set via hook config.user.*)    : false
+step 2  plugin via hook     : warmup 404   control 200   demo-ping 404
+step 3  plugin via config   : warmup 404   control 200   demo-ping 200
+----------------------------------------
+step 2  control body   : "null"
+step 2  demo-ping body : ""
+step 3  control body   : "null"
+step 3  demo-ping body : "{\"ok\":true}"
+========================================
+
+(A) CONFIRMED: only `plugins` survived the hook; `user.additionalFields` was dropped.
+(B) CONFIRMED: the same plugin serves 200 when declared in auth.config.ts, but 404 when contributed through the hook.
+
