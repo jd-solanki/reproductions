@@ -1,7 +1,11 @@
 
+> repro
+> node repro.mjs
+
+
 === STEP 1: working config, `nuxt prepare` ===
 
-(node:20290) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(node:84069) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 [nuxt-better-auth] ℹ Generated sqlite schema (.ts + .mjs)
 │
@@ -14,15 +18,15 @@
 
 │
 ●  Nuxt 4.5.2 (with Nitro 2.13.4, Vite 8.2.2 and Vue 3.5.42)
-[get-port] Unable to find an available port (tried 3000 on host "localhost"). Using alternative port 3001.
+[get-port] Unable to find an available port (tried 3000 on host "localhost"). Using alternative port 3002.
 
-  ➜ Local:    http://localhost:3001/
+  ➜ Local:    http://localhost:3002/
   ➜ Network:  use --host to expose
 
 
- ERROR  [@onmax/nuxt-better-auth] Failed to load auth config for schema generation. Schema may be incomplete: Cannot find module './does-not-exist'
+ ERROR  [@nuxtjs/better-auth] Failed to load auth config for schema generation. Schema may be incomplete: Cannot find module './does-not-exist'
 Require stack:
-- /private/tmp/claude-501/-Users-jd-Projects-github-nuxtstart-nuxtstart-vite-plus/ca9565bd-bc57-476a-81aa-1dd6f99720fd/scratchpad/repros/incomplete-schema/server/auth.config.ts
+- /Users/jd/Projects/github/jd-solanki/reproductions/server/auth.config.ts
 
     at Module._resolveFilename (node:internal/modules/cjs/loader:1564:15)
     at wrapResolveFilename (node:internal/modules/cjs/loader:1118:27)
@@ -33,10 +37,10 @@ Require stack:
     at import (node_modules/jiti/dist/jiti.cjs:1:187724)
     at server/auth.config.ts:5:27
     at async Function.import (node_modules/jiti/dist/jiti.cjs:1:187718)
-    at async loadUserAuthConfig (node_modules/@onmax/nuxt-better-auth/dist/module.mjs:329:17)
-    at async loadAuthOptions (node_modules/@onmax/nuxt-better-auth/dist/module.mjs:408:22)
-    at async setupBetterAuthSchema (node_modules/@onmax/nuxt-better-auth/dist/module.mjs:423:37)
-    at async setup (node_modules/@onmax/nuxt-better-auth/dist/module.mjs:1445:7)
+    at async loadUserAuthConfig (node_modules/@nuxtjs/better-auth/dist/module.mjs:329:17)
+    at async loadAuthOptions (node_modules/@nuxtjs/better-auth/dist/module.mjs:408:22)
+    at async setupBetterAuthSchema (node_modules/@nuxtjs/better-auth/dist/module.mjs:423:37)
+    at async setup (node_modules/@nuxtjs/better-auth/dist/module.mjs:1443:7)
     at async normalizedModule (node_modules/@nuxt/kit/dist/index.mjs:350:10)
     at async callModule (node_modules/@nuxt/kit/dist/index.mjs:998:46)
     at async installModules (node_modules/@nuxt/kit/dist/index.mjs:832:3)
@@ -53,8 +57,8 @@ Require stack:
   ➜ DevTools: press Shift + Option + D in the browser (v3.4.2)
 
 [nuxt:hub] ℹ hub:db using sqlite database with libsql driver
-✔ Vite client built in 20ms
-✔ Vite server built in 9ms
+✔ Vite client built in 16ms
+✔ Vite server built in 6ms
 
 [nitro]  ERROR  RollupError: Could not resolve "./does-not-exist" from "server/auth.config.ts"
 
@@ -70,12 +74,12 @@ undefined
 
  ERROR  Failed to load auth config: Cannot find module './does-not-exist'
 Require stack:
-- /private/tmp/claude-501/-Users-jd-Projects-github-nuxtstart-nuxtstart-vite-plus/ca9565bd-bc57-476a-81aa-1dd6f99720fd/scratchpad/repros/incomplete-schema/server/auth.config.ts
+- /Users/jd/Projects/github/jd-solanki/reproductions/server/auth.config.ts
 
-    at loadUserAuthConfig (node_modules/@onmax/nuxt-better-auth/dist/module.mjs:341:13)
-    at async loadAuthOptions (node_modules/@onmax/nuxt-better-auth/dist/module.mjs:408:22)
-    at async setupBetterAuthSchema (node_modules/@onmax/nuxt-better-auth/dist/module.mjs:423:37)
-    at async setup (node_modules/@onmax/nuxt-better-auth/dist/module.mjs:1445:7)
+    at loadUserAuthConfig (node_modules/@nuxtjs/better-auth/dist/module.mjs:341:13)
+    at async loadAuthOptions (node_modules/@nuxtjs/better-auth/dist/module.mjs:408:22)
+    at async setupBetterAuthSchema (node_modules/@nuxtjs/better-auth/dist/module.mjs:423:37)
+    at async setup (node_modules/@nuxtjs/better-auth/dist/module.mjs:1443:7)
     at async normalizedModule (node_modules/@nuxt/kit/dist/index.mjs:350:10)
     at async callModule (node_modules/@nuxt/kit/dist/index.mjs:998:46)
     at async installModules (node_modules/@nuxt/kit/dist/index.mjs:832:3)
@@ -93,6 +97,6 @@ step 3  prepare, config fails   -> exit code: 1
 
 REPRODUCED: dev overwrote a correct schema with an incomplete one.
 
-[nitro] ✔ Nuxt Nitro server built in 314ms
-ℹ Vite server warmed up in 4ms
-ℹ Vite client warmed up in 11ms
+[nitro] ✔ Nuxt Nitro server built in 301ms
+ℹ Vite server warmed up in 6ms
+ℹ Vite client warmed up in 14ms

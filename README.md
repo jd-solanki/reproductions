@@ -1,4 +1,4 @@
-# Repro: `@onmax/nuxt-better-auth` — dev overwrites a good schema with an incomplete one
+# Repro: `@nuxtjs/better-auth`, dev overwrites a good schema with an incomplete one
 
 When `server/auth.config.ts` fails to load, `nuxt dev` logs one error line and then generates
 the Better Auth schema anyway, from empty options. Every `user.additionalFields` entry and every
@@ -6,8 +6,11 @@ plugin-contributed column disappears from the file that was already on disk.
 
 `nuxt prepare` throws on the same input. Only the dev path is quiet.
 
-- **Module:** `@onmax/nuxt-better-auth@0.1.2`
-- **Nuxt:** 4.5.2 · **better-auth:** 1.7.2 · **@nuxthub/core:** 0.10.8 · **Node:** 24.20
+- **Module:** `@nuxtjs/better-auth@0.2.2`
+- **Nuxt:** 4.5.2 · **better-auth:** 1.7.2 · **@nuxthub/core:** 0.10.8 · **Node:** 24.20.0
+
+Originally filed against `@onmax/nuxt-better-auth@0.1.2`, which is deprecated. The module now
+ships as `@nuxtjs/better-auth` from the same repo, and the behaviour is unchanged on 0.2.2.
 
 ## Run it
 
@@ -42,7 +45,7 @@ step 1. After step 2 the file is still there and that column is gone.
 The two lines that matter, from [`repro.log`](./repro.log):
 
 ```
- ERROR  [@onmax/nuxt-better-auth] Failed to load auth config for schema generation.
+ ERROR  [@nuxtjs/better-auth] Failed to load auth config for schema generation.
         Schema may be incomplete: Cannot find module './does-not-exist'
 
 ...
@@ -63,6 +66,6 @@ every time.
 
 ## Where it happens
 
-`loadUserAuthConfig` catches the load failure and returns `{}` when `throwOnError` is false, and
-`throwOnError` comes from `!nuxt.options.dev`. `setupBetterAuthSchema` then runs on that empty
-object and overwrites the file.
+`loadUserAuthConfig` in `src/schema-generator.ts` catches the load failure and returns `{}` when
+`throwOnError` is false, and `throwOnError` comes from `!nuxt.options.dev`. `setupBetterAuthSchema`
+in `src/module/schema.ts` then runs on that empty object and overwrites the file.

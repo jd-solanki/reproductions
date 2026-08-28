@@ -1,4 +1,4 @@
-import { defineServerAuth } from '@onmax/nuxt-better-auth/config'
+import { defineServerAuth } from '@nuxtjs/better-auth/config'
 // The only difference from the working config: this import does not resolve.
 // Any load failure does the same thing — a typo, a missing dependency, a module
 // generated later in the build.
