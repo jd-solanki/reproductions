@@ -1,0 +1,15 @@
+import { defineServerAuth } from '@onmax/nuxt-better-auth/config'
+// The only difference from the working config: this import does not resolve.
+// Any load failure does the same thing — a typo, a missing dependency, a module
+// generated later in the build.
+import { somethingMissing } from './does-not-exist'
+
+export default defineServerAuth(() => ({
+  emailAndPassword: { enabled: true },
+  user: {
+    additionalFields: {
+      customField: { type: 'string', required: false },
+    },
+  },
+  appName: somethingMissing,
+}))
