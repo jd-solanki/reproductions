@@ -1,11 +1,7 @@
 
-> repro
-> node repro.mjs
-
-
 === STEP 1: working config, `nuxt prepare` ===
 
-(node:84069) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(node:3989) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 [nuxt-better-auth] ℹ Generated sqlite schema (.ts + .mjs)
 │
@@ -14,13 +10,12 @@
 [step 1] schema file exists: true
 [step 1] contains "customField": true
 
-=== STEP 2: same config, one unresolvable import, `nuxt dev` ===
+=== STEP 2: same config, one unresolvable import, `nuxt dev` (port 50923) ===
 
 │
 ●  Nuxt 4.5.2 (with Nitro 2.13.4, Vite 8.2.2 and Vue 3.5.42)
-[get-port] Unable to find an available port (tried 3000 on host "localhost"). Using alternative port 3002.
 
-  ➜ Local:    http://localhost:3002/
+  ➜ Local:    http://127.0.0.1:50923/
   ➜ Network:  use --host to expose
 
 
@@ -57,8 +52,8 @@ Require stack:
   ➜ DevTools: press Shift + Option + D in the browser (v3.4.2)
 
 [nuxt:hub] ℹ hub:db using sqlite database with libsql driver
-✔ Vite client built in 16ms
-✔ Vite server built in 6ms
+✔ Vite client built in 15ms
+✔ Vite server built in 4ms
 
 [nitro]  ERROR  RollupError: Could not resolve "./does-not-exist" from "server/auth.config.ts"
 
@@ -97,6 +92,3 @@ step 3  prepare, config fails   -> exit code: 1
 
 REPRODUCED: dev overwrote a correct schema with an incomplete one.
 
-[nitro] ✔ Nuxt Nitro server built in 301ms
-ℹ Vite server warmed up in 6ms
-ℹ Vite client warmed up in 14ms

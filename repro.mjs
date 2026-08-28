@@ -1,33 +1,65 @@
 // One-command reproduction. Run with: npm run repro
 import { spawn } from 'node:child_process'
 import { copyFileSync, existsSync, readFileSync, rmSync } from 'node:fs'
+import { createServer } from 'node:net'
 
 const SCHEMA = '.nuxt/better-auth/schema.sqlite.ts'
 const COLUMN = 'customField'
 
-const read = () => (existsSync(SCHEMA) ? readFileSync(SCHEMA, 'utf8') : null)
-const hasColumn = () => (read() ?? '').includes(COLUMN)
+const hasColumn = () =>
+  (existsSync(SCHEMA) ? readFileSync(SCHEMA, 'utf8') : '').includes(COLUMN)
 
-function run(cmd, args, { waitFor, timeoutMs = 120000 } = {}) {
+// Ask the OS for a port nobody is using. `nuxt dev` silently shifts to another
+// port when its own is taken, and an unrelated dev server on 3000 is enough to
+// make this run talk to a stranger.
+function freePort() {
+  return new Promise((resolve, reject) => {
+    const srv = createServer()
+    srv.on('error', reject)
+    srv.listen(0, '127.0.0.1', () => {
+      const { port } = srv.address()
+      srv.close(() => resolve(port))
+    })
+  })
+}
+
+// `detached: true` gives the child its own process group, so the negative pid
+// takes the whole `npx -> nuxt -> nitro` tree down. Without it only the shell
+// wrapper dies, the dev server is orphaned, and this script never exits.
+function kill(child) {
+  try {
+    process.kill(-child.pid, 'SIGKILL')
+  } catch {
+    try { child.kill('SIGKILL') } catch {}
+  }
+}
+
+function run(cmd, args, { waitFor, timeoutMs = 240000 } = {}) {
   return new Promise((resolve) => {
-    const child = spawn(cmd, args, { shell: true })
+    const child = spawn(cmd, args, { shell: true, detached: true })
     let out = ''
-    const done = (code) => {
+    let settled = false
+    const finish = (code) => {
+      if (settled) return
+      settled = true
       clearTimeout(timer)
-      try { child.kill('SIGKILL') } catch {}
+      kill(child)
       resolve({ out, code })
     }
-    const timer = setTimeout(() => done('timeout'), timeoutMs)
+    const timer = setTimeout(() => finish('timeout'), timeoutMs)
     const onData = (buf) => {
       out += buf.toString()
       process.stdout.write(buf)
-      if (waitFor && out.includes(waitFor)) setTimeout(() => done('matched'), 3000)
+      // Give the module a moment to finish writing the file it just announced.
+      if (waitFor && out.includes(waitFor)) setTimeout(() => finish('matched'), 5000)
     }
     child.stdout.on('data', onData)
     child.stderr.on('data', onData)
-    child.on('exit', done)
+    child.on('exit', finish)
   })
 }
+
+const port = await freePort()
 
 console.log('\n=== STEP 1: working config, `nuxt prepare` ===\n')
 rmSync('.nuxt', { recursive: true, force: true })
@@ -37,9 +69,11 @@ const step1 = hasColumn()
 console.log(`\n[step 1] schema file exists: ${existsSync(SCHEMA)}`)
 console.log(`[step 1] contains "${COLUMN}": ${step1}`)
 
-console.log('\n=== STEP 2: same config, one unresolvable import, `nuxt dev` ===\n')
+console.log(`\n=== STEP 2: same config, one unresolvable import, \`nuxt dev\` (port ${port}) ===\n`)
 copyFileSync('server/auth.config.ts.broken', 'server/auth.config.ts')
-await run('npx', ['nuxt', 'dev'], { waitFor: 'Schema may be incomplete' })
+await run('npx', ['nuxt', 'dev', '--port', String(port), '--host', '127.0.0.1'], {
+  waitFor: 'Generated sqlite schema',
+})
 const step2 = hasColumn()
 console.log(`\n[step 2] schema file exists: ${existsSync(SCHEMA)}`)
 console.log(`[step 2] contains "${COLUMN}": ${step2}`)
@@ -59,3 +93,5 @@ console.log(
     ? '\nREPRODUCED: dev overwrote a correct schema with an incomplete one.\n'
     : '\nNOT REPRODUCED.\n',
 )
+
+process.exit(0)
