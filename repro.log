@@ -1,0 +1,258 @@
+
+> repro
+> node repro.mjs
+
+
+=== STEP 0: what does the module actually generate? ===
+
+(node:10190) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[nuxt-better-auth] ℹ Generated sqlite schema (.ts + .mjs)
+│
+◆  Types generated in .nuxt.
+
+[repro] .nuxt/better-auth/secondary-storage.mjs:
+import { kv } from '@nuxthub/kv'
+export function createSecondaryStorage() {
+  return {
+    get: async (key) => kv.get(`_auth:${key}`),
+    set: async (key, value, ttl) => kv.set(`_auth:${key}`, value, { ttl }),
+    delete: async (key) => kv.del(`_auth:${key}`),
+  }
+}
+
+
+=== STEP 0b: generate the database migrations ===
+
+ℹ Ensuring database schema is generated...
+ℹ Generating database migrations...
+Reading config file '/Users/jd/Projects/github/jd-solanki/reproductions/.nuxt/hub/db/drizzle.config.ts'
+4 tables
+account 14 columns 2 indexes 1 fks
+session 8 columns 2 indexes 1 fks
+user 7 columns 1 indexes 0 fks
+verification 6 columns 1 indexes 0 fks
+
+[✓] Your SQL migration file ➜ server/db/migrations/sqlite/0000_wandering_puck.sql 🚀
+✔ Database migrations generated successfully.
+ℹ Run npx nuxt dev or run npx nuxt db migrate to apply the migrations.
+
+=== STEP A1: magic link, on the storage the module generates ===
+
+[repro] using port 63161
+
+│
+●  Nuxt 4.5.2 (with Nitro 2.13.4, Vite 8.2.2 and Vue 3.5.42)
+
+  ➜ Local:    http://127.0.0.1:63161/
+  ➜ Network:  use --host to expose
+
+[nuxt-better-auth] ℹ Generated sqlite schema (.ts + .mjs)
+  ➜ DevTools: press Shift + Option + D in the browser (v3.4.2)
+
+[nuxt:hub] ℹ hub:db using sqlite database with libsql driver
+[nuxt:hub] ℹ hub:kv using fs-lite driver
+✔ Vite client built in 22ms
+✔ Vite server built in 5ms
+[nitro] ✔ Nuxt Nitro server built in 390ms
+ℹ Vite server warmed up in 7ms
+ℹ Vite client warmed up in 15ms
+[nuxt:hub] ✔ Database migration .data/db/migrations/sqlite/0000_wandering_puck.sql applied
+WARN  [VUE_ROUTER_R0004] No match found for location with path "/"
+├▶ fix: Add a route matching this path or check for typos in the location.
+╰▶ see: https://router.vuejs.org/guide/essentials/dynamic-matching.html#Catch-all-404-Not-found-Route
+WARN  [nuxt-better-auth] Using inferred baseURL "http://localhost" from request origin. Set runtimeConfig.public.siteUrl for deterministic OAuth callbacks.
+WARN  [VUE_ROUTER_R0004] No match found for location with path "/"
+├▶ fix: Add a route matching this path or check for typos in the location.
+╰▶ see: https://router.vuejs.org/guide/essentials/dynamic-matching.html#Catch-all-404-Not-found-Route
+ERROR  2026-08-30T11:25:26.682Z ERROR [Better Auth]: TypeError secondaryStorage.getAndDelete is not a function
+
+    at consumeCacheKey (node_modules/better-auth/dist/db/internal-adapter.mjs:808:62)
+    at Object.consumeVerificationValue (node_modules/better-auth/dist/db/internal-adapter.mjs:811:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async node_modules/better-auth/dist/plugins/magic-link/index.mjs:156:24
+    at async node_modules/better-auth/node_modules/@better-auth/core/dist/api/index.mjs:56:11
+    at async internalHandler (node_modules/better-call/dist/endpoint.mjs:29:20)
+    at async node_modules/better-auth/dist/api/dispatch.mjs:228:18
+    at async processRequest (node_modules/better-call/dist/router.mjs:82:11)
+    at async handler (node_modules/better-call/dist/router.mjs:105:16)
+    at async node_modules/better-auth/node_modules/@better-auth/core/dist/context/transaction.mjs:36:13
+ERROR  # SERVER_ERROR:  secondaryStorage.getAndDelete is not a function
+
+    at consumeCacheKey (node_modules/better-auth/dist/db/internal-adapter.mjs:808:62)
+    at Object.consumeVerificationValue (node_modules/better-auth/dist/db/internal-adapter.mjs:811:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async node_modules/better-auth/dist/plugins/magic-link/index.mjs:156:24
+    at async node_modules/better-auth/node_modules/@better-auth/core/dist/api/index.mjs:56:11
+    at async internalHandler (node_modules/better-call/dist/endpoint.mjs:29:20)
+    at async node_modules/better-auth/dist/api/dispatch.mjs:228:18
+    at async processRequest (node_modules/better-call/dist/router.mjs:82:11)
+    at async handler (node_modules/better-call/dist/router.mjs:105:16)
+    at async node_modules/better-auth/node_modules/@better-auth/core/dist/context/transaction.mjs:36:13
+
+=== STEP A2: control -- same flow, hubSecondaryStorage: "custom" ===
+
+[repro] using port 63193
+
+│
+●  Nuxt 4.5.2 (with Nitro 2.13.4, Vite 8.2.2 and Vue 3.5.42)
+
+  ➜ Local:    http://127.0.0.1:63193/
+  ➜ Network:  use --host to expose
+
+[nuxt-better-auth] ℹ Generated sqlite schema (.ts + .mjs)
+  ➜ DevTools: press Shift + Option + D in the browser (v3.4.2)
+
+[nuxt:hub] ℹ hub:db using sqlite database with libsql driver
+[nuxt:hub] ℹ hub:kv using fs-lite driver
+✔ Vite client built in 17ms
+✔ Vite server built in 5ms
+[nitro] ✔ Nuxt Nitro server built in 417ms
+ℹ Vite server warmed up in 7ms
+ℹ Vite client warmed up in 19ms
+WARN  [VUE_ROUTER_R0004] No match found for location with path "/"
+├▶ fix: Add a route matching this path or check for typos in the location.
+╰▶ see: https://router.vuejs.org/guide/essentials/dynamic-matching.html#Catch-all-404-Not-found-Route
+WARN  [nuxt-better-auth] Using inferred baseURL "http://localhost" from request origin. Set runtimeConfig.public.siteUrl for deterministic OAuth callbacks.
+WARN  [VUE_ROUTER_R0004] No match found for location with path "/"
+├▶ fix: Add a route matching this path or check for typos in the location.
+╰▶ see: https://router.vuejs.org/guide/essentials/dynamic-matching.html#Catch-all-404-Not-found-Route
+
+=== STEP B1: rate limiting, on the storage the module generates ===
+
+[repro] using port 63231
+
+│
+●  Nuxt 4.5.2 (with Nitro 2.13.4, Vite 8.2.2 and Vue 3.5.42)
+
+  ➜ Local:    http://127.0.0.1:63231/
+  ➜ Network:  use --host to expose
+
+[nuxt-better-auth] ℹ Generated sqlite schema (.ts + .mjs)
+  ➜ DevTools: press Shift + Option + D in the browser (v3.4.2)
+
+[nuxt:hub] ℹ hub:db using sqlite database with libsql driver
+[nuxt:hub] ℹ hub:kv using fs-lite driver
+✔ Vite client built in 16ms
+✔ Vite server built in 6ms
+[nitro] ✔ Nuxt Nitro server built in 397ms
+ℹ Vite server warmed up in 5ms
+ℹ Vite client warmed up in 15ms
+WARN  [VUE_ROUTER_R0004] No match found for location with path "/"
+├▶ fix: Add a route matching this path or check for typos in the location.
+╰▶ see: https://router.vuejs.org/guide/essentials/dynamic-matching.html#Catch-all-404-Not-found-Route
+WARN  [nuxt-better-auth] Using inferred baseURL "http://localhost" from request origin. Set runtimeConfig.public.siteUrl for deterministic OAuth callbacks.
+ERROR  Cannot read properties of undefined (reading 'replace')
+
+    at #getRelativeFileName (node_modules/youch/build/src/templates/error_stack/main.js:21:19)
+    at #printStackFrame (node_modules/youch/build/src/templates/error_stack/main.js:70:43)
+    at node_modules/youch/build/src/templates/error_stack/main.js:146:32
+    at Array.map (<anonymous>)
+    at ErrorStack.toANSI (node_modules/youch/build/src/templates/error_stack/main.js:145:55)
+    at #tmplToANSI (node_modules/youch/build/index.js:88:20)
+    at Object.children (node_modules/youch/build/index.js:127:121)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Layout.toANSI (node_modules/youch/build/src/templates/layout/main.js:24:15)
+    at async Templates.toANSI (node_modules/youch/build/index.js:124:10)
+ERROR  [h3] [unhandled] Secondary-storage rate limiting requires SecondaryStorage.increment.
+
+    
+
+  [cause]: Secondary-storage rate limiting requires SecondaryStorage.increment.
+ERROR  Cannot read properties of undefined (reading 'replace')
+
+    at #getRelativeFileName (node_modules/youch/build/src/templates/error_stack/main.js:21:19)
+    at #printStackFrame (node_modules/youch/build/src/templates/error_stack/main.js:70:43)
+    at node_modules/youch/build/src/templates/error_stack/main.js:146:32
+    at Array.map (<anonymous>)
+    at ErrorStack.toANSI (node_modules/youch/build/src/templates/error_stack/main.js:145:55)
+    at #tmplToANSI (node_modules/youch/build/index.js:88:20)
+    at Object.children (node_modules/youch/build/index.js:127:121)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Layout.toANSI (node_modules/youch/build/src/templates/layout/main.js:24:15)
+    at async Templates.toANSI (node_modules/youch/build/index.js:124:10)
+ERROR  [h3] [unhandled] Secondary-storage rate limiting requires SecondaryStorage.increment.
+
+    
+
+  [cause]: Secondary-storage rate limiting requires SecondaryStorage.increment.
+WARN  [VUE_ROUTER_R0004] No match found for location with path "/"
+├▶ fix: Add a route matching this path or check for typos in the location.
+╰▶ see: https://router.vuejs.org/guide/essentials/dynamic-matching.html#Catch-all-404-Not-found-Route
+ERROR  Cannot read properties of undefined (reading 'replace')
+
+    at #getRelativeFileName (node_modules/youch/build/src/templates/error_stack/main.js:21:19)
+    at #printStackFrame (node_modules/youch/build/src/templates/error_stack/main.js:70:43)
+    at node_modules/youch/build/src/templates/error_stack/main.js:146:32
+    at Array.map (<anonymous>)
+    at ErrorStack.toANSI (node_modules/youch/build/src/templates/error_stack/main.js:145:55)
+    at #tmplToANSI (node_modules/youch/build/index.js:88:20)
+    at Object.children (node_modules/youch/build/index.js:127:121)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Layout.toANSI (node_modules/youch/build/src/templates/layout/main.js:24:15)
+    at async Templates.toANSI (node_modules/youch/build/index.js:124:10)
+ERROR  [h3] [unhandled] Secondary-storage rate limiting requires SecondaryStorage.increment.
+
+    
+
+  [cause]: Secondary-storage rate limiting requires SecondaryStorage.increment.
+
+=== STEP B2: control -- same request, hubSecondaryStorage: "custom" ===
+
+[repro] using port 63252
+
+│
+●  Nuxt 4.5.2 (with Nitro 2.13.4, Vite 8.2.2 and Vue 3.5.42)
+
+  ➜ Local:    http://127.0.0.1:63252/
+  ➜ Network:  use --host to expose
+
+[nuxt-better-auth] ℹ Generated sqlite schema (.ts + .mjs)
+  ➜ DevTools: press Shift + Option + D in the browser (v3.4.2)
+
+[nuxt:hub] ℹ hub:db using sqlite database with libsql driver
+[nuxt:hub] ℹ hub:kv using fs-lite driver
+✔ Vite client built in 15ms
+✔ Vite server built in 5ms
+[nitro] ✔ Nuxt Nitro server built in 371ms
+ℹ Vite server warmed up in 6ms
+ℹ Vite client warmed up in 14ms
+WARN  [VUE_ROUTER_R0004] No match found for location with path "/"
+├▶ fix: Add a route matching this path or check for typos in the location.
+╰▶ see: https://router.vuejs.org/guide/essentials/dynamic-matching.html#Catch-all-404-Not-found-Route
+WARN  [nuxt-better-auth] Using inferred baseURL "http://localhost" from request origin. Set runtimeConfig.public.siteUrl for deterministic OAuth callbacks.
+WARN  [VUE_ROUTER_R0004] No match found for location with path "/"
+├▶ fix: Add a route matching this path or check for typos in the location.
+╰▶ see: https://router.vuejs.org/guide/essentials/dynamic-matching.html#Catch-all-404-Not-found-Route
+
+======= RESULT =======
+generated .nuxt/better-auth/secondary-storage.mjs implements
+  get          : true
+  set          : true
+  delete       : true
+  getAndDelete : false
+  increment    : false
+----------------------
+SYMPTOM A -- consuming a verification value (magic link verify)
+  A1 module storage   : warmup 404  get-session 200  sign-in 200  link captured true  verify 500
+  A2 custom storage   : warmup 404  get-session 200  sign-in 200  link captured true  verify 302
+  A1 server logged "getAndDelete is not a function" : true
+  A2 server logged "getAndDelete is not a function" : false
+  A1 verify redirect  : -   session cookie false
+  A2 verify redirect  : http://localhost:63193/   session cookie true
+----------------------
+SYMPTOM B -- every auth request, once rateLimit.enabled (production default)
+  B1 module storage   : warmup 404  own route 200  get-session 500
+  B2 custom storage   : warmup 404  own route 200  get-session 200
+  B1 server logged "Secondary-storage rate limiting requires SecondaryStorage.increment." : true
+  B2 server logged "Secondary-storage rate limiting requires SecondaryStorage.increment." : false
+----------------------
+  A1 verify body      : ""
+  A2 verify body      : ""
+  B1 get-session body : "{ \"statusCode\": 500, \"stack\": [ \"Secondary-storage rate limiting requires SecondaryStorage.increment.\", \"\" ] }"
+  B2 get-session body : "null"
+----------------------
+SYMPTOM A reproduced : true
+SYMPTOM B reproduced : true
+======================
+
