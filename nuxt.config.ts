@@ -1,18 +1,17 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
+
+  // Order matters here, and it is the ordinary order: NuxtHub first, because
+  // `@nuxtjs/better-auth` is the module that plugs into it. That ordering is
+  // what the bug turns on -- see README.md.
   modules: ['@nuxthub/core', '@nuxtjs/better-auth'],
+
   hub: {
     db: 'sqlite',
-    // `hubSecondaryStorage: true` refuses to boot without hub KV.
-    kv: true,
   },
-  auth: {
-    // `true` is the configuration under test: the module writes the secondary
-    // storage itself, into `.nuxt/better-auth/secondary-storage.mjs`.
-    //
-    // `'custom'` is the module's own documented escape hatch, and the repro's
-    // two control steps switch to it. server/auth.config.ts then supplies a
-    // storage that has all five methods better-auth 1.7 requires.
-    hubSecondaryStorage: process.env.REPRO_STORAGE === 'custom' ? 'custom' : true,
-  },
+
+  // Nothing about the auth options is under test. The module only needs enough
+  // to resolve a server config and generate a schema, which server/auth.config.ts
+  // supplies. `hubSecondaryStorage` is deliberately absent: that is a different
+  // bug and does not belong in this repro.
 })

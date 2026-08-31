@@ -1,5 +1,5 @@
 import { defineClientAuth } from '@nuxtjs/better-auth/config'
 
-// Nothing under test lives on the client. Every step of the repro drives the
-// server over plain HTTP.
+// The module refuses to set up without a client config. Nothing here is under
+// test; it exists so `nuxt prepare` gets far enough to generate the schema.
 export default defineClientAuth({})
