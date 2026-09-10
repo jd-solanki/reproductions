@@ -1,3 +1,6 @@
+import { writeFileSync } from 'node:fs'
+import { join } from 'node:path'
+
 // Two ways of naming the same two layers. `REPRO_EXTENDS=path` swaps every reference in
 // this repro (here and in `packages/b`) from the package name to the relative directory.
 // The graph is identical either way; only the spelling changes.
@@ -20,4 +23,25 @@ export default defineNuxtConfig({
     // returns immediately and there is nothing to inspect.
     cloudflare: { deployConfig: true, nodeCompat: true },
   },
+
+  modules: [
+    // Dumps the merged config next to the layer list Nuxt ended up with, so the two can be
+    // compared. Runs after `loadNuxtConfig` has fully resolved both.
+    (_options, nuxt) => {
+      writeFileSync(
+        join(nuxt.options.rootDir, '.repro-merged.json'),
+        JSON.stringify(
+          {
+            layerCwds: nuxt.options._layers.map(l => l.cwd),
+            crons: nuxt.options.nitro.cloudflare?.wrangler?.triggers?.crons,
+            scheduledTasks: nuxt.options.nitro.scheduledTasks,
+            nitroExternalsInline: nuxt.options.nitro.externals?.inline,
+            importsDirs: nuxt.options.imports?.dirs,
+          },
+          null,
+          2,
+        ),
+      )
+    },
+  ],
 })

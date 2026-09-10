@@ -18,8 +18,8 @@ computing gzip size...
 .nuxt/dist/client/_nuxt/DE4bVwI0.js             48.78 kB │ gzip: 18.64 kB
 .nuxt/dist/client/_nuxt/DqWSoXBL.js             84.82 kB │ gzip: 32.48 kB
 
-ℹ ✓ built in 180ms
-✔ Client built in 187ms
+ℹ ✓ built in 397ms
+✔ Client built in 404ms
 ℹ Building server...
 ℹ vite v8.2.2 building ssr environment for production...
 transforming...
@@ -34,8 +34,8 @@ rendering chunks...
 .nuxt/dist/server/_nuxt/error-404-VOLdwMpy.js               14.38 kB │ map: 27.57 kB
 .nuxt/dist/server/server.mjs                                30.97 kB │ map: 91.31 kB
 
-ℹ ✓ built in 72ms
-✔ Server built in 75ms
+ℹ ✓ built in 78ms
+✔ Server built in 83ms
 [nitro] ✔ Generated public .output/public
 [nitro] ℹ Building Nuxt Nitro server (preset: cloudflare-module, compatibility date: 2026-09-10)
 [nitro] ✔ Nuxt Nitro server built
@@ -95,8 +95,8 @@ computing gzip size...
 .nuxt/dist/client/_nuxt/DE4bVwI0.js             48.78 kB │ gzip: 18.64 kB
 .nuxt/dist/client/_nuxt/DqWSoXBL.js             84.82 kB │ gzip: 32.48 kB
 
-ℹ ✓ built in 185ms
-✔ Client built in 191ms
+ℹ ✓ built in 180ms
+✔ Client built in 190ms
 ℹ Building server...
 ℹ vite v8.2.2 building ssr environment for production...
 transforming...
@@ -111,8 +111,8 @@ rendering chunks...
 .nuxt/dist/server/_nuxt/error-404-VOLdwMpy.js               14.38 kB │ map: 27.57 kB
 .nuxt/dist/server/server.mjs                                30.97 kB │ map: 91.31 kB
 
-ℹ ✓ built in 74ms
-✔ Server built in 78ms
+ℹ ✓ built in 76ms
+✔ Server built in 80ms
 [nitro] ✔ Generated public .output/public
 [nitro] ℹ Building Nuxt Nitro server (preset: cloudflare-module, compatibility date: 2026-09-10)
 [nitro] ✔ Nuxt Nitro server built
@@ -163,17 +163,34 @@ defu       : 6.1.7
 authored once, in packages/a/nuxt.config.ts:
   nitro.cloudflare.wrangler.triggers.crons = ["0 0 * * *"]
   nitro.scheduledTasks                     = {"0 0 * * *":["someTask"]}
---------------------------------------
+  nitro.externals.inline                   = ["some-package"]
+  imports.dirs                             = [".../packages/a/utils"]
+======================================
 extends: ['@repro/layer-a', '@repro/layer-b']     <- package names
-  .output/server/wrangler.json  "triggers" : {"crons":["0 0 * * *","0 0 * * *"]}
-  .output/server/.../nitro.mjs             : cron:"0 0 * * *",tasks:["someTask","someTask"]
-
-extends: ['./packages/a', './packages/b']         <- same graph, relative paths
-  .output/server/wrangler.json  "triggers" : {"crons":["0 0 * * *"]}
-  .output/server/.../nitro.mjs             : cron:"0 0 * * *",tasks:["someTask"]
 --------------------------------------
-package-name extends duplicates the cron (expected true) : true
-relative-path extends does not              (expected true) : true
-BUG REPRODUCED                                              : true
+  nuxt.options._layers (cwd)               : repro, a, b
+  ^ deduped: the repeat is NOT visible here
+  merged nitro...triggers.crons            : ["0 0 * * *","0 0 * * *"]
+  merged nitro.scheduledTasks              : {"0 0 * * *":["someTask","someTask"]}
+  merged nitro.externals.inline            : ["some-package","some-package"]
+  merged imports.dirs (count / unique)     : 2 / 1
+  .output/server/wrangler.json "triggers"  : {"crons":["0 0 * * *","0 0 * * *"]}
+  .output/server/.../nitro.mjs             : cron:"0 0 * * *",tasks:["someTask","someTask"]
+======================================
+extends: ['./packages/a', './packages/b']         <- same graph, relative paths
+--------------------------------------
+  nuxt.options._layers (cwd)               : repro, a, b
+  merged nitro...triggers.crons            : ["0 0 * * *"]
+  merged nitro.scheduledTasks              : {"0 0 * * *":["someTask"]}
+  merged nitro.externals.inline            : ["some-package"]
+  merged imports.dirs (count / unique)     : 1 / 1
+  .output/server/wrangler.json "triggers"  : {"crons":["0 0 * * *"]}
+  .output/server/.../nitro.mjs             : cron:"0 0 * * *",tasks:["someTask"]
+======================================
+package-name extends duplicates the cron   (expected true) : true
+... and the scheduledTasks task list       (expected true) : true
+... while _layers still looks deduped      (expected true) : true
+relative-path extends does none of it      (expected true) : true
+BUG REPRODUCED                                             : true
 ======================================
 
