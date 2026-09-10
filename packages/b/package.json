@@ -1,0 +1,10 @@
+{
+  "name": "@repro/layer-b",
+  "type": "module",
+  "private": true,
+  "version": "0.0.0",
+  "main": "./nuxt.config.ts",
+  "dependencies": {
+    "@repro/layer-a": "*"
+  }
+}
