@@ -1,0 +1,15 @@
+{
+  "name": "repro-vercel-ai-realtime-transport-socket-lifecycle",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "repro": "node repro.mjs"
+  },
+  "dependencies": {
+    "@ai-sdk/google": "4.0.67",
+    "@ai-sdk/google-latest": "npm:@ai-sdk/google@4.0.69",
+    "ai": "7.0.97",
+    "ai-latest": "npm:ai@7.0.99",
+    "zod": "4.4.3"
+  }
+}

@@ -1,0 +1,85 @@
+
+> repro
+> node repro.mjs
+
+=============== RESULT ===============
+node : v24.20.0
+--------------------------------------
+hit on: ai@7.0.97 + @ai-sdk/google@4.0.67
+
+  BUG 1  retired socket still drives the live session
+    "disposed" appears in ai/dist/index.js   : no
+    retired by a later connect()
+      status before firing its handlers    : connected
+      onclose  (guarded)   ignored it      : true
+      onerror  (unguarded) set status      : error
+      onmessage(unguarded) added its text  : true
+      onmessage(unguarded) ran onToolCall  : true
+      that output written to live socket   : true
+    retired by dispose()
+      status before firing its handlers    : disconnected
+      onclose  (guarded)   ignored it      : true
+      onerror  (unguarded) set status      : error
+      onmessage(unguarded) added its text  : true
+      onmessage(unguarded) ran onToolCall  : true
+
+  BUG 2  the CloseEvent is discarded
+    arity of the installed ws.onclose        : 0
+    close(1007, "Request contains an invalid argument")
+      status reported                        : disconnected
+      onError calls                          : (none)
+      code 1007 anywhere observable          : false
+      reason anywhere observable             : false
+
+  BUG 3  FunctionResponse.response is not always an object
+    output '"SEARCH_UNAVAILABLE"'  -> response: "SEARCH_UNAVAILABLE"
+    output '42'                    -> response: 42
+    output '["a","b"]'             -> response: ["a","b"]
+    output '{"status":"..."}'      -> response: {"status":"SEARCH_UNAVAILABLE"}
+    output 'not json at all'       -> response: {}  (threw nothing: true)
+    frame handed to WebSocket.send():
+      {"toolResponse":{"functionResponses":[{"id":"call-1","name":"search","response":"SEARCH_UNAVAILABLE"}]}}
+--------------------------------------
+newest: ai@7.0.99 + @ai-sdk/google@4.0.69
+
+  BUG 1  retired socket still drives the live session
+    "disposed" appears in ai/dist/index.js   : no
+    retired by a later connect()
+      status before firing its handlers    : connected
+      onclose  (guarded)   ignored it      : true
+      onerror  (unguarded) set status      : error
+      onmessage(unguarded) added its text  : true
+      onmessage(unguarded) ran onToolCall  : true
+      that output written to live socket   : true
+    retired by dispose()
+      status before firing its handlers    : disconnected
+      onclose  (guarded)   ignored it      : true
+      onerror  (unguarded) set status      : error
+      onmessage(unguarded) added its text  : true
+      onmessage(unguarded) ran onToolCall  : true
+
+  BUG 2  the CloseEvent is discarded
+    arity of the installed ws.onclose        : 0
+    close(1007, "Request contains an invalid argument")
+      status reported                        : disconnected
+      onError calls                          : (none)
+      code 1007 anywhere observable          : false
+      reason anywhere observable             : false
+
+  BUG 3  FunctionResponse.response is not always an object
+    output '"SEARCH_UNAVAILABLE"'  -> response: "SEARCH_UNAVAILABLE"
+    output '42'                    -> response: 42
+    output '["a","b"]'             -> response: ["a","b"]
+    output '{"status":"..."}'      -> response: {"status":"SEARCH_UNAVAILABLE"}
+    output 'not json at all'       -> response: {}  (threw nothing: true)
+    frame handed to WebSocket.send():
+      {"toolResponse":{"functionResponses":[{"id":"call-1","name":"search","response":"SEARCH_UNAVAILABLE"}]}}
+--------------------------------------
+BUG 1  ai@7.0.97 + @ai-sdk/google@4.0.67  onclose ignores a retired socket, onerror/onmessage do not : true
+BUG 2  ai@7.0.97 + @ai-sdk/google@4.0.67  close code 1007 and its reason reach no consumer           : true
+BUG 3  ai@7.0.97 + @ai-sdk/google@4.0.67  a string tool result lands in response as a bare string    : true
+BUG 1  ai@7.0.99 + @ai-sdk/google@4.0.69  onclose ignores a retired socket, onerror/onmessage do not : true
+BUG 2  ai@7.0.99 + @ai-sdk/google@4.0.69  close code 1007 and its reason reach no consumer           : true
+BUG 3  ai@7.0.99 + @ai-sdk/google@4.0.69  a string tool result lands in response as a bare string    : true
+ALL THREE REPRODUCED ON BOTH VERSION PAIRS                                                           : true
+======================================
