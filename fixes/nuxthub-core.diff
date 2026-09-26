@@ -1,0 +1,25 @@
+--- a/dist/db/lib/build.mjs
++++ b/dist/db/lib/build.mjs
+@@ -58,6 +58,13 @@
+     throw error;
+   }
+ }
++function aliasPaths(alias = {}) {
++  return Object.fromEntries(Object.entries(alias).flatMap(([key, target]) => {
++    // Extensionless, so a `.mjs` target resolves to the `.d.ts` beside it.
++    const path = String(target).replace(/\.mjs$/, "");
++    return [[key, [path]], [`${key}/*`, [`${path}/*`]]];
++  }));
++}
+ export async function buildDatabaseSchema(buildDir, { relativeDir, alias } = {}) {
+   const startTime = Date.now();
+   relativeDir = relativeDir || buildDir;
+@@ -89,6 +96,8 @@
+     dts: {
+       build: false,
+       tsconfig: false,
++      // The JS bundle above resolves Nuxt aliases; without these paths the declarations type every aliased import `any`.
++      compilerOptions: { paths: aliasPaths(alias) },
+       newContext: true
+     },
+     clean: false,

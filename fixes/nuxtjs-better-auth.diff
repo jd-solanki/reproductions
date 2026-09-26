@@ -1,0 +1,38 @@
+--- a/dist/module.mjs
++++ b/dist/module.mjs
+@@ -1170,19 +1170,7 @@
+   addTypeTemplate({
+     filename: "types/auth-schema.d.ts",
+     getContents: () => `
+-declare module '#auth/schema' {
+-  export const user: any
+-  export const session: any
+-  export const account: any
+-  export const verification: any
+-  export const schema: {
+-    user: any
+-    session: any
+-    account: any
+-    verification: any
+-    [key: string]: any
+-  } | undefined
+-}
++export {}
+ `
+   }, { nitro: true });
+   addTypeTemplate({
+@@ -1679,6 +1667,14 @@
+           write: true
+         });
+         nuxt.options.alias["#auth/schema"] = schemaTemplate.dst;
++        const schemaDialect = setup.database.buildContext?.hubDialect ?? "sqlite";
++        for (const extension of ["d.ts", "d.mts"]) {
++          addTemplate({
++            filename: `better-auth/schema.${extension}`,
++            getContents: () => `export * from "./schema.${schemaDialect}"\nimport * as generatedSchema from "./schema.${schemaDialect}"\nexport declare const schema: typeof generatedSchema\n`,
++            write: true
++          });
++        }
+         if (setup.schemaGeneration)
+           await ensureSchemaBootstrap(schemaTemplate.dst, setup.database.buildContext?.hubDialect ?? "sqlite");
+       }

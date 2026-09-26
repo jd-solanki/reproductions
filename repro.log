@@ -1,0 +1,8 @@
+
+> repro-auth-schema-typed-any@ test /Users/jd/Projects/github/jd-solanki/reproductions
+> nuxt typecheck
+
+[nuxt-better-auth] ℹ Generated sqlite schema (.ts + .mjs)
+server/typeCheck.ts(22,44): error TS2344: Type 'false' does not satisfy the constraint 'true'.
+server/typeCheck.ts(26,3): error TS2344: Type 'false' does not satisfy the constraint 'true'.
+ ELIFECYCLE  Test failed. See above for more details.
