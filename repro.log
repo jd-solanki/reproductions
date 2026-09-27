@@ -1,0 +1,60 @@
+
+> repro-app-base-url-404@ test /Users/jd/Projects/github/jd-solanki/reproductions
+> vitest run
+
+
+ RUN  v5.0.2 /Users/jd/Projects/github/jd-solanki/reproductions
+
+[error] [nuxt:hub] Please run `npx nypm i drizzle-orm drizzle-kit` to properly setup Drizzle ORM with NuxtHub.
+stderr | test/app-base-url.test.ts
+"splitSetCookieString" is imported from external module "file:///Users/jd/Projects/github/jd-solanki/reproductions/node_modules/.pnpm/cookie-es@3.1.1/node_modules/cookie-es/dist/index.mjs" but never used in "node_modules/.pnpm/@nuxtjs+better-auth@0.3.5_rluqd7ws3ks7muorui5jnguthe/node_modules/@nuxtjs/better-auth/dist/runtime/server/internal/nitro2.js".
+
+ ❯ test/app-base-url.test.ts (2 tests | 2 failed) 4177ms
+   ❯ Better Auth under app.baseURL '/app/' (2)
+     × answers /app/api/auth/ok 6ms
+     × builds its links under /app/api/auth 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/app-base-url.test.ts > Better Auth under app.baseURL '/app/' > answers /app/api/auth/ok
+AssertionError: expected 404 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 404
+
+ ❯ test/app-base-url.test.ts:8:54
+      6| describe("Better Auth under app.baseURL '/app/'", () => {
+      7|   it('answers /app/api/auth/ok', async () => {
+      8|     expect((await fetch('/app/api/auth/ok')).status).toBe(200)
+       |                                                      ^
+      9|   })
+     10|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  test/app-base-url.test.ts > Better Auth under app.baseURL '/app/' > builds its links under /app/api/auth
+AssertionError: expected '/api/auth' to be '/app/api/auth' // Object.is equality
+
+Expected: "/app/api/auth"
+Received: "/api/auth"
+
+ ❯ test/app-base-url.test.ts:13:39
+     11|   it('builds its links under /app/api/auth', async () => {
+     12|     const baseURL = await (await fetch('/app/api/auth-base')).text()
+     13|     expect(new URL(baseURL).pathname).toBe('/app/api/auth')
+       |                                       ^
+     14|   })
+     15| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  12:09:59
+   Duration  4.26s (tests 99%, import 1%)
+
+ ELIFECYCLE  Test failed. See above for more details.
