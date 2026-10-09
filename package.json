@@ -1,0 +1,20 @@
+{
+  "name": "repro-compat5-nitro2-drops-shared-auto-imports",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "postinstall": "nuxt prepare",
+    "build": "nuxt build",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "nuxt": "4.6.0",
+    "vue": "^3.5.43",
+    "vue-router": "^5.3.1"
+  },
+  "devDependencies": {
+    "@nuxt/test-utils": "^4.3.3",
+    "typescript": "^6",
+    "vitest": "^5.0.1"
+  }
+}
