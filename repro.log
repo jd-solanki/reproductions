@@ -1,0 +1,14 @@
+# nuxt-nightly 4.6.0-2610091445-242e197, future.compatibilityVersion: 5
+$ pnpm test
+[nuxt] ℹ Running with compatibility version 5
+nuxt.config.ts(7,5): error TS2353: Object literal may only specify known properties, and 'cloudflare' does not exist in type 'ResolveNuxtNitroConfig<NitroConfig>'.
+ ELIFECYCLE  Test failed. See above for more details.
+
+# control: same nightly, compatibilityVersion commented out
+$ nuxt typecheck
+(exit 0)
+
+# control: nuxt 4.6.0, future.compatibilityVersion: 5
+$ nuxt typecheck
+[nuxt] ℹ Running with compatibility version 5
+nuxt.config.ts(6,5): error TS2353: Object literal may only specify known properties, and 'preset' does not exist in type 'ResolveNuxtNitroConfig<NitroConfig>'.
