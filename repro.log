@@ -1,0 +1,23 @@
+# nuxt 4.6.0, future.compatibilityVersion: 5
+$ pnpm test
+     × auto-imports a shared/utils export in server code
+     × keeps defineAppConfig for app.config.ts in the server bundle
+      Tests  2 failed (2)
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+# nuxt-nightly 4.6.0-2610091445-242e197, future.compatibilityVersion: 5
+$ pnpm test
+     × auto-imports a shared/utils export in server code
+     × keeps defineAppConfig for app.config.ts in the server bundle
+      Tests  2 failed (2)
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+# control: nuxt 4.6.0, compatibilityVersion 5 plus experimental.nitroAutoImports: true
+$ pnpm test
+      Tests  2 passed (2)
+
+# server log behind the 500s (nuxt 4.6.0, nuxt build && node .output/server/index.mjs)
+  cause: ReferenceError: defineAppConfig is not defined
+  cause: ReferenceError: greet is not defined
+ ReferenceError: defineAppConfig is not defined
+ ReferenceError: greet is not defined
