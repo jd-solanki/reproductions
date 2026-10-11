@@ -1,0 +1,32 @@
+diff --git a/dist/module.mjs b/dist/module.mjs
+index 3cf08ec8ff2d03588530199d01ffb57376b8862d..c2ac9acfcdc4c1f1081b7c4a82bf10fa4103df47 100644
+--- a/dist/module.mjs
++++ b/dist/module.mjs
+@@ -1,5 +1,5 @@
+ import { extname, posix, isAbsolute, resolve, join, basename, dirname } from 'node:path';
+-import { defineNuxtModule, createResolver, logger, addServerImports, addServerHandler, addTypeTemplate } from '@nuxt/kit';
++import { defineNuxtModule, createResolver, logger, addServerImports, addServerHandler, addTypeTemplate, getNitroVersion } from '@nuxt/kit';
+ import { existsSync, readFileSync } from 'node:fs';
+ import { parse } from 'yaml';
+ import vue from '@vitejs/plugin-vue';
+@@ -394,16 +394,12 @@ const module = defineNuxtModule({
+             }
+           }
+         });
++        // Nitro 3 builds the server through Vite, where Nuxt's own vite:vue already compiles .vue
++        const serverPlugins = getNitroVersion(nuxt) === 3 ? [nitroInlineAssetPlugin()] : [nitroInlineAssetPlugin(), vuePlugin];
+         if (Array.isArray(nitroConfig.rollupConfig.plugins)) {
+-          nitroConfig.rollupConfig.plugins.unshift(
+-            nitroInlineAssetPlugin(),
+-            vuePlugin
+-          );
++          nitroConfig.rollupConfig.plugins.unshift(...serverPlugins);
+         } else {
+-          nitroConfig.rollupConfig.plugins = [
+-            nitroInlineAssetPlugin(),
+-            vuePlugin
+-          ];
++          nitroConfig.rollupConfig.plugins = serverPlugins;
+         }
+         logger.success(
+           `${LOGGER_PREFIX} Generated virtual module with ${Object.keys(templateMapping).length} email template(s)`

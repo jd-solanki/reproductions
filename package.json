@@ -1,0 +1,16 @@
+{
+  "name": "repro-nuxt-email-renderer-nuxt5-double-vite-vue",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "nuxt": "npm:nuxt-nightly@5.0.0-2610111729-78f43dd",
+    "nuxt-email-renderer": "2.11.1",
+    "vue": "^3.5.43",
+    "vue-router": "^5.3.1"
+  }
+}
