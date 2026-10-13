@@ -1,0 +1,17 @@
+{
+  "name": "repro-polar-better-auth-client-plugin-type",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@polar-sh/better-auth": "2.1.0",
+    "@polar-sh/sdk": "1.0.2",
+    "better-auth": "1.7.7",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "typescript": "6.0.3"
+  }
+}
