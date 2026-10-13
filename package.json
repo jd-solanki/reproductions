@@ -1,0 +1,21 @@
+{
+  "name": "repro-nuxt-better-auth-nuxt5-types",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "postinstall": "nuxt prepare",
+    "test": "nuxt typecheck",
+    "test:fix1": "sed -i.bak 's|nitro-imports.d.ts|server-imports.d.ts|g' node_modules/@nuxtjs/better-auth/dist/module.mjs && nuxt prepare && nuxt typecheck"
+  },
+  "dependencies": {
+    "@nuxtjs/better-auth": "0.3.9",
+    "better-auth": "1.7.7",
+    "nuxt": "npm:nuxt-nightly@5.0.0-2610111729-78f43dd",
+    "vue": "^3.5.43",
+    "vue-router": "^5.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^6",
+    "vue-tsc": "^3.3.12"
+  }
+}
