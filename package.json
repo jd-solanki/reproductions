@@ -1,0 +1,19 @@
+{
+  "name": "repro-nuxtseo-shared-nitro3-route-rule-types",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "postinstall": "nuxt prepare",
+    "test": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@nuxtjs/robots": "^7.0.2",
+    "nuxt": "npm:nuxt-nightly@5.0.0-2610111729-78f43dd",
+    "vue": "^3.5.43",
+    "vue-router": "^5.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^6",
+    "vue-tsc": "^3.3.12"
+  }
+}

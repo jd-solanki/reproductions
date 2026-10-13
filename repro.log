@@ -1,0 +1,8 @@
+# nuxt-nightly 5.0.0-2610111729-78f43dd (nitro 3.0.260903-beta), @nuxtjs/robots 7.0.2, nuxtseo-shared 6.0.2
+$ pnpm exec nuxt typecheck
+nuxt.config.ts(6,19): error TS2353: Object literal may only specify known properties, and 'robots' does not exist in type '{ cache?: false | { name?: string | undefined; group?: string | undefined; integrity?: unknown; maxAge?: number | undefined; swr?: boolean | undefined; staleMaxAge?: number | undefined; base?: string | (string | undefined)[] | undefined; ... 9 more ...; cacheStatusHeader?: string | ... 1 more ... | undefined; } | un...'.
+(exit 2)
+
+# control: nuxt 4.6.1 (nitropack 2.13.4), same config
+$ pnpm exec nuxt typecheck
+(exit 0)
