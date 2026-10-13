@@ -1,0 +1,51 @@
+diff --git a/dist/module.mjs b/dist/module.mjs
+index 3cf08ec..59a71e0 100644
+--- a/dist/module.mjs
++++ b/dist/module.mjs
+@@ -1,5 +1,5 @@
+ import { extname, posix, isAbsolute, resolve, join, basename, dirname } from 'node:path';
+-import { defineNuxtModule, createResolver, logger, addServerImports, addServerHandler, addTypeTemplate } from '@nuxt/kit';
++import { defineNuxtModule, createResolver, logger, addServerImports, addServerHandler, addTypeTemplate, isNuxtMajorVersion } from '@nuxt/kit';
+ import { existsSync, readFileSync } from 'node:fs';
+ import { parse } from 'yaml';
+ import vue from '@vitejs/plugin-vue';
+@@ -348,6 +348,17 @@ const module = defineNuxtModule({
+       return cssContents.join("\n");
+     })();
+     nuxt.options.runtimeConfig.nuxtEmailRenderer = { globalCss: globalCssContent };
++    let serverVuePlugin;
++    nuxt.hook("nitro:init", (nitro) => {
++      nitro.hooks.hook("prerender:config", (config) => {
++        // Nuxt 5's prerenderer bundles with rolldown, outside the Vite build that compiles .vue
++        if (!isNuxtMajorVersion(5, nuxt) || !serverVuePlugin) return;
++        config.rollupConfig = {
++          ...config.rollupConfig,
++          plugins: [serverVuePlugin, ...[config.rollupConfig?.plugins ?? []].flat()]
++        };
++      });
++    });
+     nuxt.hooks.hook("nitro:config", async (nitroConfig) => {
+       applyCodeHighlightingBuildConfig(
+         nitroConfig,
+@@ -394,16 +405,13 @@ const module = defineNuxtModule({
+             }
+           }
+         });
++        serverVuePlugin = vuePlugin;
++        // Nuxt 5 builds the server through Vite, where Nuxt's own vite:vue already compiles .vue
++        const serverPlugins = isNuxtMajorVersion(5, nuxt) ? [nitroInlineAssetPlugin()] : [nitroInlineAssetPlugin(), vuePlugin];
+         if (Array.isArray(nitroConfig.rollupConfig.plugins)) {
+-          nitroConfig.rollupConfig.plugins.unshift(
+-            nitroInlineAssetPlugin(),
+-            vuePlugin
+-          );
++          nitroConfig.rollupConfig.plugins.unshift(...serverPlugins);
+         } else {
+-          nitroConfig.rollupConfig.plugins = [
+-            nitroInlineAssetPlugin(),
+-            vuePlugin
+-          ];
++          nitroConfig.rollupConfig.plugins = serverPlugins;
+         }
+         logger.success(
+           `${LOGGER_PREFIX} Generated virtual module with ${Object.keys(templateMapping).length} email template(s)`
