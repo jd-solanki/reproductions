@@ -1,0 +1,17 @@
+{
+  "name": "repro-varlock-cloudflare-init-nuxt5-prerender",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@varlock/cloudflare-integration": "^1.6.1",
+    "nuxt": "npm:nuxt-nightly@5.0.0-2610111729-78f43dd",
+    "varlock": "^1.22.0",
+    "vue": "^3.5.43",
+    "vue-router": "^5.4.0"
+  }
+}
