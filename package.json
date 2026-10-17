@@ -1,0 +1,8 @@
+{
+  "name": "vite-hub-exotic-subdep-install",
+  "private": true,
+  "packageManager": "pnpm@12.11.2",
+  "dependencies": {
+    "vite-hub": "0.0.4"
+  }
+}
