@@ -1,0 +1,4 @@
+# Only bypasses vite-hub/vitehub#2545: vite-hub's pkg.pr.new build pins URL subdependencies.
+blockExoticSubdeps: false
+# Lets install finish without running or approving dependency build scripts.
+strictDepBuilds: false
