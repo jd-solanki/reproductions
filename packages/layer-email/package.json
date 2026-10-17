@@ -1,0 +1,17 @@
+{
+  "name": "@app/layer-email",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "dependencies": {
+    "@nuxt/kit": "catalog:",
+    "nuxt-email-renderer": "catalog:",
+    "unemail": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "nuxt": "catalog:"
+  }
+}

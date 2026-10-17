@@ -1,0 +1,153 @@
+packages:
+  - apps/*
+  - packages/*
+  - tooling/*
+
+catalogMode: prefer
+
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - '@nuxtjs/robots@7.0.0'
+  - '@nuxtjs/seo@6.0.1'
+  - '@nuxtjs/sitemap@9.0.2'
+  - 'nuxt-ai-ready@3.0.1'
+  - 'nuxt-link-checker@6.0.0'
+  - 'nuxt-og-image@7.0.3'
+  - 'nuxt-schema-org@7.0.0'
+  - 'nuxt-seo-utils@9.0.0'
+  - 'nuxt-site-config-kit@5.0.1'
+  - 'nuxt-site-config@5.0.1'
+  - 'nuxt-skew-protection@2.0.1'
+  - 'nuxtseo-devtools-host@1.0.2'
+  - 'nuxtseo-layer-devtools@6.0.2'
+  - 'nuxtseo-shared@6.0.1'
+  - 'nuxtseo-shared@6.0.2'
+  - 'site-config-stack@5.0.1'
+  - 'sitemapd@0.2.3'
+
+shamefullyHoist: true
+
+shellEmulator: true
+
+trustPolicy: no-downgrade
+trustPolicyIgnoreAfter: 262800
+trustPolicyExclude:
+  - cssnano-preset-default@9.4.0
+  - cssnano-utils@8.2.1
+  - cssnano@9.4.0
+  - postcss-colormin@9.0.7
+  - postcss-convert-values@9.0.8
+  - postcss-discard-comments@9.0.7
+  - postcss-discard-duplicates@9.0.6
+  - postcss-discard-empty@9.0.7
+  - postcss-discard-overridden@9.0.6
+  - postcss-merge-longhand@9.3.0
+  - postcss-merge-rules@9.1.3
+  - postcss-minify-font-values@9.0.8
+  - postcss-minify-gradients@9.0.7
+  - postcss-minify-params@9.0.7
+  - postcss-minify-selectors@9.0.7
+  - postcss-normalize-charset@9.0.6
+  - postcss-normalize-display-values@9.0.6
+  - postcss-normalize-positions@9.0.7
+  - postcss-normalize-repeat-style@9.0.6
+  - postcss-normalize-string@9.0.6
+  - postcss-normalize-timing-functions@9.0.6
+  - postcss-normalize-unicode@9.0.6
+  - postcss-normalize-url@9.0.6
+  - postcss-normalize-whitespace@9.0.6
+  - postcss-ordered-values@9.0.8
+  - postcss-reduce-initial@9.0.7
+  - postcss-reduce-transforms@9.0.5
+  - postcss-svgo@9.0.5
+  - postcss-unique-selectors@9.0.6
+  - stylehacks@9.0.8
+
+catalog:
+  '@antfu/utils': ^9.3.0
+  '@commitlint/cli': ^21.2.3
+  '@commitlint/config-conventional': ^21.2.3
+  '@commitlint/types': ^21.2.3
+  '@electric-sql/pglite': ^0.5.8
+  '@iconify-json/logos': ^1.2.15
+  '@iconify-json/lucide': ^1.2.140
+  '@iconify-json/simple-icons': ^1.2.99
+  '@nuxt/content': ^3.16.1
+  '@nuxt/hints': ^1.1.4
+  '@nuxt/image': ^2.1.0
+  '@nuxt/kit': npm:@nuxt/kit-nightly@5.0.0-2610111729-78f43dd
+  '@nuxt/scripts': 1.3.12
+  '@nuxt/test-utils': ^4.3.3
+  '@nuxt/ui': ^4.11.3
+  '@nuxthub/core': 0.10.8
+  '@nuxtjs/better-auth': ^0.3.9
+  '@nuxtjs/mdc': ^0.23.2
+  '@nuxtjs/seo': ^6.0.1
+  '@nuxtjs/sitemap': ^9.0.2
+  '@pinia/nuxt': ^1.0.2
+  '@polar-sh/better-auth': ^2.1.0
+  '@polar-sh/sdk': ^1.0.2
+  '@shikijs/engine-oniguruma': ^4.5.0
+  '@shikijs/transformers': ^4.5.0
+  '@takumi-rs/core': ^2.15.0
+  '@tanstack/vue-table': ^8.21.3
+  '@types/fs-extra': ^11.0.4
+  '@types/mdast': ^4.0.4
+  '@types/node': ^24.0.0
+  '@varlock/cloudflare-integration': ^1.6.0
+  '@varlock/infisical-plugin': ^2.1.2
+  '@vue/test-utils': ^2.5.1
+  '@vueuse/core': ^14.4.0
+  better-auth: 1.7.7
+  better-sqlite3: ^12.11.1
+  drizzle-kit: ^0.31.11
+  drizzle-orm: ^0.45.3
+  fs-extra: ^11.4.1
+  happy-dom: ^20.14.5
+  nuxt: npm:nuxt-nightly@5.0.0-2610111729-78f43dd
+  nuxt-email-renderer: ^2.11.1
+  nuxt-og-image: ^7.0.3
+  nuxtseo-devtools-host: ^1.0.2
+  pinia: ^4.0.3
+  playwright-core: ^1.63.0
+  postgres: ^3.4.9
+  scule: ^1.3.0
+  tailwindcss: ^4.3.3
+  type-fest: ^5.10.0
+  typescript: ^6.0.3
+  ufo: ^1.6.4
+  unemail: 0.7.0
+  unified: ^11.0.5
+  unstorage: ^1.17.5
+  varlock: ^1.21.1
+  vfile: ^6.0.3
+  vite: npm:@voidzero-dev/vite-plus-core@1.0.0
+  vite-plus: 1.0.0
+  vitest: 5.0.1
+  vue: ^3.5.43
+  vue-router: ^5.3.1
+  vue-tsc: ^3.3.12
+  wrangler: ^4.147.0
+  zod: ^4.6.5
+
+overrides:
+  '@types/node': 'catalog:'
+  vite: 'catalog:'
+
+peerDependencyRules:
+  allowAny:
+    - vite
+  allowedVersions:
+    vite: '*'
+
+allowBuilds:
+  '@parcel/watcher': true
+  '@prisma/client': true
+  '@prisma/engines': true
+  better-sqlite3: true
+  esbuild: true
+  prisma: true
+  sharp: true
+  unrs-resolver: true
+  vue-demi: true
+  workerd: true

@@ -1,0 +1,29 @@
+{
+  "name": "@app/layer-base",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "dependencies": {
+    "@antfu/utils": "catalog:",
+    "@nuxt/image": "catalog:",
+    "@nuxt/kit": "catalog:",
+    "@nuxt/ui": "catalog:",
+    "@pinia/nuxt": "catalog:",
+    "@tanstack/vue-table": "catalog:",
+    "@vueuse/core": "catalog:",
+    "nuxt-og-image": "catalog:",
+    "pinia": "catalog:",
+    "scule": "catalog:",
+    "type-fest": "catalog:",
+    "ufo": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "@nuxthub/core": "catalog:",
+    "drizzle-orm": "catalog:",
+    "nuxt": "catalog:"
+  }
+}

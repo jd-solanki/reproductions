@@ -1,0 +1,24 @@
+{
+  "name": "@app/layer-payments",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "dependencies": {
+    "@app/layer-auth": "workspace:*",
+    "@app/layer-base": "workspace:*",
+    "@app/layer-email": "workspace:*",
+    "@nuxt/ui": "catalog:",
+    "@polar-sh/better-auth": "catalog:",
+    "@polar-sh/sdk": "catalog:",
+    "better-auth": "catalog:",
+    "varlock": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "drizzle-orm": "catalog:",
+    "nuxt": "catalog:"
+  }
+}

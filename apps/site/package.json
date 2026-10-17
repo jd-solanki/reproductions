@@ -1,0 +1,43 @@
+{
+  "name": "@app/site",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "dependencies": {
+    "@app/layer-blog": "workspace:*",
+    "@app/layer-docs": "workspace:*",
+    "@app/layer-site": "workspace:*",
+    "@nuxt/content": "catalog:",
+    "@nuxt/image": "catalog:",
+    "@nuxt/scripts": "catalog:",
+    "@nuxt/ui": "catalog:",
+    "@nuxtjs/seo": "catalog:",
+    "@pinia/nuxt": "catalog:",
+    "@shikijs/engine-oniguruma": "catalog:",
+    "@takumi-rs/core": "catalog:",
+    "@varlock/cloudflare-integration": "catalog:",
+    "@varlock/infisical-plugin": "catalog:",
+    "better-sqlite3": "catalog:",
+    "nuxt": "catalog:",
+    "tailwindcss": "catalog:",
+    "varlock": "catalog:",
+    "vue": "catalog:",
+    "vue-router": "catalog:",
+    "wrangler": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@app/layer-base": "workspace:*",
+    "@iconify-json/lucide": "catalog:",
+    "@iconify-json/simple-icons": "catalog:",
+    "@nuxt/test-utils": "catalog:",
+    "@types/node": "catalog:",
+    "@vue/test-utils": "catalog:",
+    "happy-dom": "catalog:",
+    "nuxtseo-devtools-host": "catalog:",
+    "playwright-core": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "vue-tsc": "catalog:"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@app/layer-auth",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "dependencies": {
+    "@app/layer-base": "workspace:*",
+    "@app/layer-email": "workspace:*",
+    "@nuxtjs/better-auth": "catalog:",
+    "@tanstack/vue-table": "catalog:",
+    "@vueuse/core": "catalog:",
+    "better-auth": "catalog:",
+    "type-fest": "catalog:",
+    "ufo": "catalog:",
+    "varlock": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "drizzle-orm": "catalog:",
+    "nuxt": "catalog:"
+  }
+}

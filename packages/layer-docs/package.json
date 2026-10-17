@@ -1,0 +1,19 @@
+{
+  "name": "@app/layer-docs",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "dependencies": {
+    "@app/layer-site": "workspace:*",
+    "@nuxt/content": "catalog:",
+    "@nuxt/ui": "catalog:",
+    "@nuxtjs/sitemap": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "nuxt": "catalog:"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "@tooling/dependency-patches",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0"
+}
