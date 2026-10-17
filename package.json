@@ -1,0 +1,17 @@
+{
+  "name": "vite-hub-nuxt-dev-cloudflare-workers",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt dev",
+    "repro": "node repro.mjs",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "nuxt": "npm:nuxt-nightly@5.0.0-2610161507-5812474",
+    "vite-hub": "https://pkg.pr.new/vite-hub/vitehub/vite-hub@c8f6612",
+    "vue": "^3.5.43",
+    "vue-router": "^5.4.0"
+  },
+  "packageManager": "pnpm@12.11.2"
+}
