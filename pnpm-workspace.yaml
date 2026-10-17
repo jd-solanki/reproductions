@@ -1,0 +1,3 @@
+trustPolicy: no-downgrade
+# Bypasses a separate bug only: vite-hub@0.0.4 fails earlier with ERR_PNPM_EXOTIC_SUBDEP.
+blockExoticSubdeps: false
