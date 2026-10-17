@@ -1,0 +1,20 @@
+{
+  "name": "vite-hub-db-generate-nuxt-srcdir",
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@12.11.2",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "postinstall": "nuxt prepare",
+    "repro": "node repro.mjs"
+  },
+  "dependencies": {
+    "drizzle-kit": "^0.31.11",
+    "drizzle-orm": "^0.45.4",
+    "nuxt": "^4.6.1",
+    "vite-hub": "https://pkg.pr.new/vite-hub/vitehub/vite-hub@c8f6612",
+    "vue": "^3.5.43",
+    "vue-router": "^5.4.0"
+  }
+}
