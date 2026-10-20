@@ -1,0 +1,18 @@
+{
+  "name": "repro",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "repro": "node repro.mjs"
+  },
+  "dependencies": {
+    "nuxt": "4.6.2",
+    "nuxt-seo-utils": "9.0.1",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "typescript": "6.0.3",
+    "vue-tsc": "3.3.13"
+  }
+}
