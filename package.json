@@ -1,0 +1,14 @@
+{
+  "name": "unemail-cloudflare-email-service-nameless-address",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "repro": "node repro.mjs"
+  },
+  "dependencies": {
+    "unemail": "0.7.0"
+  },
+  "devDependencies": {
+    "wrangler": "4.151.3"
+  }
+}

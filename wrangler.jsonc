@@ -1,0 +1,7 @@
+{
+  "name": "unemail-nameless-address",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  // Local mode stubs send_email without validating addresses; only Cloudflare's runtime checks them.
+  "send_email": [{ "name": "EMAIL", "remote": true }]
+}
