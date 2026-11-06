@@ -4,7 +4,7 @@ A minimal Nuxt app with email/password auth and `nitro.preset: 'cloudflare_modul
 
 | | |
 | --- | --- |
-| Upstream | TBD |
+| Upstream | https://github.com/nuxt-modules/better-auth/issues/712 |
 | `@nuxtjs/better-auth` | 0.3.15 |
 | `better-auth` | 1.7.18 |
 | `nuxt` / `nitropack` | 4.6.4 / 2.13.6 |
@@ -35,7 +35,7 @@ POST /api/auth/sign-in/email -> 400 {"message":"[body] Invalid input: expected o
  ELIFECYCLE  Command failed with exit code 1.
 ```
 
-In dev, nitropack's Cloudflare preset runs its `cloudflare-dev` plugin, which sets `event.node.req.__unenv__` on every request, including real Node `IncomingMessage`s. `requestBody()` in `src/runtime/server/internal/nitro2.ts` (added by #649) treats any request with an `__unenv__` key as an in-process mock with no body:
+In dev, nitropack's Cloudflare preset runs its `cloudflare-dev` plugin, which sets `event.node.req.__unenv__` on every request, including real Node `IncomingMessage`s. `requestBody()` in `src/runtime/server/internal/nitro2.ts` (added by [nuxt-modules/better-auth#649](https://github.com/nuxt-modules/better-auth/pull/649)) treats any request with an `__unenv__` key as an in-process mock with no body:
 
 ```ts
 return '__unenv__' in req ? undefined : req as unknown as BodyInit
