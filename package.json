@@ -1,0 +1,16 @@
+{
+  "name": "repro-nuxt-ai-ready-llms-txt-titles",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "nuxt generate",
+    "check": "node check.mjs",
+    "repro": "nuxt generate && node check.mjs"
+  },
+  "dependencies": {
+    "nuxt": "4.6.4",
+    "nuxt-ai-ready": "3.5.0",
+    "vue": "latest",
+    "vue-router": "latest"
+  }
+}
