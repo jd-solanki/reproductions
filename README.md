@@ -5,7 +5,7 @@ and the prerender stores them, but `/llms.txt` lists each page by its bare path.
 
 | | |
 | --- | --- |
-| Upstream | _filled in after filing_ |
+| Upstream | https://github.com/harlan-zw/nuxt-ai-ready/issues/234 |
 | `nuxt-ai-ready` | 3.5.0 |
 | `nuxt` | 4.6.4 |
 | `node` / `pnpm` | 24.20.0 / 9.15.4 |
