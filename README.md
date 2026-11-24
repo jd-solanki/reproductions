@@ -6,7 +6,7 @@ instead of the collection dump.
 
 | | |
 | --- | --- |
-| Upstream | TBD |
+| Upstream | https://github.com/nuxt/nuxt/issues/37261 |
 | `nuxt` | 4.7.0 |
 | `nitro` | 3.0.261103-rc |
 | `@nuxt/content` | 3.17.0 |
